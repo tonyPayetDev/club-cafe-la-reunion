@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { passive: true });
 
   navToggle?.addEventListener('click', () => {
-    navToggle.classList.toggle('open');
+    const isOpen = navToggle.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', String(isOpen));
     document.body.classList.toggle('nav-mobile-open');
   });
 
@@ -33,7 +34,11 @@ document.addEventListener('DOMContentLoaded', () => {
   function goTo(index) {
     current = (index + slides.length) % slides.length;
     track.style.transform = `translateX(-${current * 100}%)`;
-    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    dots.forEach((d, i) => {
+      const active = i === current;
+      d.classList.toggle('active', active);
+      d.setAttribute('aria-selected', String(active));
+    });
   }
 
   function startAutoplay() {
